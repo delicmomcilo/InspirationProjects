@@ -1,0 +1,6 @@
+<svg version="1.1" viewBox="0 0 24 24" class="bob-core-components-icon">
+    <g class="icons/_tint/boardportal-">
+        <path class="primarytint"
+              d="M10.293 8.293a1 1 0 0 1 1.32-.083l.094.083 3 3a1 1 0 0 1 .083 1.32l-.083.094-3 3a1 1 0 0 1-1.497-1.32l.083-.094L12.585 12l-2.292-2.293a1 1 0 0 1-.083-1.32l.083-.094z"/>
+    </g>
+</svg>

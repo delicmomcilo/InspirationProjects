@@ -1,0 +1,27 @@
+export const GET_PREEMPTIONS = 'preemption/GET_PREEMPTIONS';
+export const GET_PREEMPTIONS_SUCCESS = 'preemption/GET_PREEMPTIONS_SUCCESS';
+export const GET_PREEMPTIONS_FAILURE = 'preemption/GET_PREEMPTIONS_FAILURE';
+
+export const GET_PREEMPTION = 'preemption/GET_PREEMPTION';
+export const GET_PREEMPTION_SUCCESS = 'preemption/GET_PREEMPTION_SUCCESS';
+export const GET_PREEMPTION_FAILURE = 'preemption/GET_PREEMPTION_FAILURE';
+
+export const GET_MY_PREEMPTIONS = 'preemption/GET_MY_PREEMPTIONS';
+export const GET_MY_PREEMPTIONS_SUCCESS = 'preemption/GET_MY_PREEMPTIONS_SUCCESS';
+export const GET_MY_PREEMPTIONS_FAILURE = 'preemption/GET_MY_PREEMPTIONS_FAILURE';
+
+export const GET_MY_INTERESTS = 'preemption/GET_MY_INTERESTS';
+export const GET_MY_INTERESTS_SUCCESS = 'preemption/GET_MY_INTERESTS_SUCCESS';
+export const GET_MY_INTERESTS_FAILURE = 'preemption/GET_MY_INTERESTS_FAILURE';
+
+export const POST_INTEREST = 'preemption/POST_INTEREST';
+export const POST_INTEREST_SUCCESS = 'preemption/POST_INTEREST_SUCCESS';
+export const POST_INTEREST_FAILURE = 'preemption/POST_INTEREST_FAILURE';
+
+export const DELETE_INTEREST = 'preemption/DELETE_INTEREST';
+export const DELETE_INTEREST_SUCCESS = 'preemption/DELETE_INTEREST_SUCCESS';
+export const DELETE_INTEREST_FAILURE = 'preemption/DELETE_INTEREST_FAILURE';
+
+export const GET_FILTERS = 'preemption/GET_FILTERS';
+export const GET_FILTERS_SUCCESS = 'preemption/GET_FILTERS_SUCCESS';
+export const GET_FILTERS_FAILURE = 'preemption/GET_FILTERS_FAILURE';

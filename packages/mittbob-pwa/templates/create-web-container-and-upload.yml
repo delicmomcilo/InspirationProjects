@@ -1,0 +1,35 @@
+parameters:
+  # Environment should equal a Subscription
+  environment: ''
+  shortNames:
+    Development: 'd'
+    Testing: 't'
+    Staging: 's'
+    Production: 'p'
+  SPMapping:
+    Development: 'Development'
+    Testing: 'Test'
+    Staging: 'Stage'
+    Production: 'Production'
+
+steps:
+  - task: AzureAppConfiguration@1
+    inputs:
+      azureSubscription: 'DeploymentSP-${{ parameters.SPMapping[parameters.environment] }}-SC'
+      ConfigstoreName: 'bob-${{ parameters.shortNames[parameters.environment]}}-weu-appconfig-acf'
+      KeyFilter: 'Pipeline:*'
+  # AzureKeyVault will be remove when AzureAppConfiguration gets better support for secret references.
+  - task: AzureKeyVault@1
+    inputs:
+      azureSubscription: 'DeploymentSP-${{ parameters.SPMapping[parameters.environment] }}-SC'
+      keyVaultName: 'bob-${{ parameters.shortNames[parameters.environment]}}-weu-keyvault-kv'
+      secretsFilter: 'Pipeline-DeploymentSP-ClientSecret'
+  - bash: |
+      az login --service-principal --username $(Pipeline:DeploymentSP:ClientId) --password $(Pipeline-DeploymentSP-ClientSecret) --tenant $(Pipeline:DeploymentSP:TenantId)
+      az account set --subscription ${{ parameters.SPMapping[parameters.environment] }}
+      az storage blob upload-batch -d \$web --account-name bob${{ parameters.shortNames[parameters.environment]}}weu1stg -s $(Pipeline.Workspace)/WebAppBuild
+      az storage account update --resource-group bob-${{ parameters.shortNames[parameters.environment]}}-weu-shared-rg --name bob${{ parameters.shortNames[parameters.environment]}}weu1stg --default-action Allow
+    displayName: Upload build folder
+  - bash: |
+      az storage account show -n bob${{ parameters.shortNames[parameters.environment]}}weu1stg -g bob-${{ parameters.shortNames[parameters.environment]}}-weu-shared-rg --query "primaryEndpoints.web" --output tsv
+    displayName: Get site url

@@ -1,0 +1,22 @@
+{
+  "name": "bob",
+  "version": "0.1.0",
+  "private": true,
+  "workspaces": [
+    "packages/*"
+  ],
+  "scripts": {
+    "whyPreflightCheck": "echo \"Webpack dependency warning: https://github.com/facebook/create-react-app/issues/9010 \"",
+    "test": "export SKIP_PREFLIGHT_CHECK=true; lerna run test:lerna --scope={@bob/core-components,@bob/mittbob-pwa,@bob/standalone-map}",
+    "test:coverage": "export SKIP_PREFLIGHT_CHECK=true; lerna run test:coverage --scope={@bob/core-components,@bob/mittbob-pwa,@bob/standalone-map}",
+    "build": "export SKIP_PREFLIGHT_CHECK=true; lerna run build:lerna --scope={@bob/core-components,@bob/mittbob-pwa,@bob/standalone-map}",
+    "new-version": "export SKIP_PREFLIGHT_CHECK=true; lerna version -m \"chore(release): publish %s\" --conventional-commits --yes",
+    "publish-from-git": "lerna publish from-git --conventional-commits --yes",
+    "version-and-publish": "yarn new-version && yarn publish-from-git",
+    "precommit": "yarn test:coverage",
+    "prepare": "lerna run prepare"
+  },
+  "devDependencies": {
+    "lerna": "^3.22.1"
+  }
+}

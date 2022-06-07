@@ -1,0 +1,79 @@
+{
+  "name": "@bob/core-components",
+  "version": "2.20.0",
+  "main": "build/index.js",
+  "module": "build/index.js",
+  "types": "build/index.d.ts",
+  "files": [
+    "build"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git@ssh.dev.azure.com:v3/bobbbl/WEBAPPS/bob.mittbob.webapp",
+    "directory": "packages/bob-core-components"
+  },
+  "scripts": {
+    "storybook": "start-storybook -p 6006",
+    "start": "react-scripts start",
+    "build:copyfiles": "copyfiles -u 1 src, \"src/**/*.svg\" \"src/**/*.otf\" \"src/**/*.jpg\" build",
+    "build:transformsvg": "babel build --out-dir build",
+    "build:babel": "babel src --out-dir build --source-maps inline",
+    "build": "rimraf build && tsc && yarn build:babel && yarn build:copyfiles && yarn build:transformsvg",
+    "build:lerna": "yarn build",
+    "build:watch": "chokidar \"src/**/*\" -c \"yarn build\"",
+    "build-storybook": "build-storybook",
+    "test:lerna": "echo \"No tests for @bob/core-components\"",
+    "prepare": "yarn build"
+  },
+  "eslintConfig": {
+    "extends": "react-app"
+  },
+  "dependencies": {
+    "@babel/cli": "^7.11.6",
+    "clsx": "^1.1.1",
+    "copyfiles": "^2.3.0",
+    "core-js": "^3.6.5",
+    "framer-motion": "^2.7.7",
+    "react-imask": "^6.0.5",
+    "react-tooltip": "^4.2.8",
+    "styled-components": "^5.1.1",
+    "styled-normalize": "^8.0.7",
+    "styled-theming": "^2.2.0"
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  },
+  "devDependencies": {
+    "@babel/core": "^7.3.3",
+    "@babel/preset-env": "^7.3.1",
+    "@babel/preset-react": "^7.0.0",
+    "@storybook/addon-actions": "^6.0.5",
+    "@storybook/addon-essentials": "^6.0.5",
+    "@storybook/addon-knobs": "^6.0.5",
+    "@storybook/addon-links": "^6.0.5",
+    "@storybook/react": "^6.0.5",
+    "@types/react-transition-group": "^4.4.0",
+    "@types/styled-components": "^5.1.2",
+    "@types/styled-theming": "^2.2.5",
+    "babel-loader": "^8.1.0",
+    "babel-plugin-inline-react-svg": "^1.1.1",
+    "chokidar-cli": "^2.1.0",
+    "react-is": "^16.13.1",
+    "rimraf": "^3.0.2",
+    "storybook": "^6.0.5",
+    "typescript": "^3.9.7"
+  },
+  "peerDependencies": {
+    "react": "^16.13.1"
+  },
+  "gitHead": "f82a5b9e3f276cfb1ec2756c80a8a5ae2cfc465a"
+}

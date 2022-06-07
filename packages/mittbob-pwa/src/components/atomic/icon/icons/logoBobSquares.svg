@@ -1,0 +1,6 @@
+<svg version="1.1" viewBox="0 0 24 24" class="bob-core-components-icon">
+    <g class="icons/_tint/logo-bob-squares">
+        <path class="primarytint"
+              d="M11.426 9.53v.632H7.632v6.323h6.324v-3.794h.632v4.426H7V9.53h4.426zm3.162 0v2.529h-2.53v-2.53h2.53zM17.118 7v5.059H15.22v-.633h1.265V7.632h-3.794v1.265h-.632V7h5.058zm-3.162 3.162H12.69v1.264h1.265v-1.264z"/>
+    </g>
+</svg>

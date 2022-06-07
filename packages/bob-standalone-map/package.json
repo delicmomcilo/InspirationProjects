@@ -1,0 +1,82 @@
+{
+  "name": "@bob/standalone-map",
+  "version": "2.20.0",
+  "main": "build/index.js",
+  "module": "build/index.es.js",
+  "types": "build/index.d.ts",
+  "files": [
+    "build"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git@ssh.dev.azure.com:v3/bobbbl/WEBAPPS/bob.mittbob.webapp",
+    "directory": "packages/bob-standalone-map"
+  },
+  "dependencies": {
+    "@bob/core-components": "^2.20.0",
+    "google-maps-react": "^2.0.6",
+    "react": "^16.13.1",
+    "styled-components": "^5.1.1",
+    "swr": "^0.3.1",
+    "use-debounce": "^4.0.0"
+  },
+  "scripts": {
+    "storybook": "start-storybook -p 6006",
+    "build": "rimraf build && rollup -c",
+    "build:lerna": "rimraf build && rollup -c",
+    "build:watch": "chokidar \"src/**/*\" -c \"yarn build\"",
+    "build-storybook": "build-storybook",
+    "test:lerna": "echo \"No tests for @bob/core-components\"",
+    "prepare": "yarn build"
+  },
+  "eslintConfig": {
+    "extends": "react-app"
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  },
+  "devDependencies": {
+    "@babel/core": "^7.3.3",
+    "@babel/preset-env": "^7.3.1",
+    "@babel/preset-react": "^7.0.0",
+    "@rollup/plugin-commonjs": "^15.0.0",
+    "@rollup/plugin-image": "^2.0.5",
+    "@rollup/plugin-node-resolve": "^8.4.0",
+    "@rollup/plugin-url": "^5.0.1",
+    "@storybook/addon-actions": "^6.0.5",
+    "@storybook/addon-essentials": "^6.0.5",
+    "@storybook/addon-knobs": "^6.0.5",
+    "@storybook/addon-links": "^6.0.5",
+    "@storybook/react": "^6.0.5",
+    "@svgr/babel-plugin-transform-svg-component": "^5.4.0",
+    "@svgr/babel-preset": "^5.4.0",
+    "@svgr/rollup": "4.3.3",
+    "@types/google-maps-react": "^2.0.5",
+    "@types/googlemaps": "^3.39.13",
+    "@types/styled-components": "^5.1.2",
+    "@types/styled-theming": "^2.2.5",
+    "babel-loader": "^8.1.0",
+    "chokidar-cli": "^2.1.0",
+    "http-proxy-middleware": "^1.0.5",
+    "react-is": "^16.13.1",
+    "rimraf": "^3.0.2",
+    "rollup": "^2.23.1",
+    "rollup-plugin-babel": "^4.4.0",
+    "rollup-plugin-peer-deps-external": "^2.2.3",
+    "rollup-plugin-react-svg": "^3.0.3",
+    "rollup-plugin-typescript2": "^0.27.2",
+    "storybook": "^6.0.5",
+    "svg-inline-loader": "^0.8.2",
+    "typescript": "^3.9.7"
+  },
+  "gitHead": "f82a5b9e3f276cfb1ec2756c80a8a5ae2cfc465a"
+}

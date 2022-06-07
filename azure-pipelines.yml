@@ -1,0 +1,216 @@
+variables:
+  YARN_CACHE_FOLDER: $(Pipeline.Workspace)/.
+  isDevelopmentBranch: $[eq(variables['Build.SourceBranch'], 'refs/heads/development')]
+  isMasterBranch: $[eq(variables['Build.SourceBranch'], 'refs/heads/master')]
+trigger:
+  batch: true
+  branches:
+    include:
+      - '*'
+  tags:
+    include:
+    - v*
+
+#  - stage: TestAndBuild
+#    variables:
+#      isReleaseChore: contains(stageDependencies.Release.GetCommitMessage.outputs['SetCommitMessageStep.Msg'], 'RUNIT')
+#    condition: and(not(variables.isMasterBranch), not(and(variables.isDevelopmentBranch, variables.isReleaseChore)))
+#    jobs
+stages:
+- stage: VerifyReleaseBuild
+  jobs:
+    - job: GetCommitMessage
+      pool:
+        vmImage: 'ubuntu-latest'
+      steps:
+        - checkout: self
+          persistCredentials: true
+          clean: true
+        - bash: |
+            export MSG=$(git log -1 --oneline)
+            git log -1 --oneline
+            echo $MSG
+            echo '##vso[task.setvariable variable=Msg;isOutput=true]'$MSG
+          name: SetCommitMessageStep
+    - job: Release
+      variables:
+        isReleaseChore: $[ contains(dependencies.GetCommitMessage.outputs['SetCommitMessageStep.Msg'], 'chore(release)') ]
+      dependsOn: GetCommitMessage
+      condition: and(succeeded(), not(eq(variables.isReleaseChore, 'True')), eq(variables.isMasterBranch, 'True'))
+      pool:
+        vmImage: 'ubuntu-latest'
+      steps:
+        - checkout: self
+          persistCredentials: true
+          clean: true
+        - bash: |
+            git checkout master
+            git config --global user.email "monorepo-pipeline@bob.no"
+            git config --global user.name "Azure DevOps Monorepo Pipeline Release"
+          displayName: Prevent detached head state, checkout master.
+        - bash: ls
+        - bash: |
+            echo "registry=https://pkgs.dev.azure.com/bobbbl/_packaging/bob-web-feed/npm/registry/" >> .npmrc;
+            echo "always-auth=true" >> .npmrc;
+          displayName: Create .npmrc
+        - task: npmAuthenticate@0
+          inputs:
+            workingFile: .npmrc
+        - bash: yarn
+          displayName: Yarn
+        - bash: yarn run prepare
+          displayName: Lerna prepare
+        - bash: yarn version-and-publish
+          displayName: Version and publish
+        - bash: |
+            git checkout develop
+            git merge master
+            git push origin develop
+          displayName: Update develop with new packages and changelog.
+    - job: TestAndBuild
+      pool:
+        vmImage: 'ubuntu-latest'
+      variables:
+        isReleaseChore: $[ contains(dependencies.GetCommitMessage.outputs['SetCommitMessageStep.Msg'], 'chore(release)') ]
+      dependsOn: ['Release', 'GetCommitMessage']
+      condition: and(in(dependencies.Release.result, 'Skipped'), or(eq(variables.isReleaseChore, 'False'), startsWith(variables['build.sourceBranch'], 'refs/tags/v')))
+      steps:
+        - bash: |
+            echo "registry=https://pkgs.dev.azure.com/bobbbl/_packaging/bob-web-feed/npm/registry/" >> .npmrc;
+            echo "always-auth=true" >> .npmrc;
+          displayName: Create .npmrc
+        - task: npmAuthenticate@0
+          inputs:
+            workingFile: .npmrc
+        - bash: yarn
+          displayName: Yarn
+        - bash: yarn run prepare
+          displayName: Lerna prepare
+        - bash: ls node_modules/@bob/core-components
+          displayName: Debug
+#        - bash: yarn add -W -D lerna
+#          displayName: Add lerna
+        - bash: yarn test
+          displayName: Test
+
+        - task: PublishTestResults@2
+          condition: succeededOrFailed()
+          inputs:
+            testRunner: JUnit
+            testResultsFiles: '$(Build.SourcesDirectory)/packages/mittbob-pwa/testCoverage/junit.xml'
+        - bash: yarn build
+          displayName: Build bundle
+        - task: PublishPipelineArtifact@1
+          displayName: Upload the build folder artifact
+          inputs:
+            path: $(System.DefaultWorkingDirectory)/packages/mittbob-pwa/build
+            artifact: WebAppBuild
+- stage: Development
+  dependsOn: VerifyReleaseBuild
+  variables:
+    isReleaseChore: $[ contains(dependencies.VerifyReleaseBuild.outputs['GetCommitMessage.SetCommitMessageStep.Msg'], 'chore(release)') ]
+  condition: and(succeeded(), or(eq(variables.isReleaseChore, 'False'), startsWith(variables['build.sourceBranch'], 'refs/tags/v')), eq(variables.isMasterBranch, 'False'), or(in(variables['build.sourceBranch'], 'refs/heads/develop'), startsWith(variables['build.sourceBranch'], 'refs/tags/v')))
+  jobs:
+    - deployment: Deploy
+      pool:
+        vmImage: 'ubuntu-latest'
+      environment: 'Development'
+      strategy:
+        runOnce:
+          deploy:
+            steps:
+              - checkout: self
+              - template: packages/mittbob-pwa/templates/terraform-init-plan-apply.yml
+                parameters:
+                  environment: 'Development'
+              - task: DownloadPipelineArtifact@2
+                displayName: Download the build folder artifact
+                inputs:
+                  artifact: WebAppBuild
+              - template: packages/mittbob-pwa/templates/inject-environment.yml
+                parameters:
+                  environment: 'Development'
+              - template: packages/mittbob-pwa/templates/create-web-container-and-upload.yml
+                parameters:
+                  environment: 'Development'
+- stage: Test
+  condition: and(succeeded('Development'), or(eq(variables['build.sourceBranch'], 'refs/heads/master'), startsWith(variables['build.sourceBranch'], 'refs/tags/v')))
+  jobs:
+    - deployment: Deploy
+      pool:
+        vmImage: 'ubuntu-latest'
+      environment: 'Testing'
+      strategy:
+        runOnce:
+          deploy:
+            steps:
+              - checkout: self
+              - template: packages/mittbob-pwa/templates/terraform-init-plan-apply.yml
+                parameters:
+                  environment: 'Testing'
+              - task: DownloadPipelineArtifact@2
+                displayName: Download the build folder artifact
+                inputs:
+                  artifact: WebAppBuild
+              - template: packages/mittbob-pwa/templates/inject-environment.yml
+                parameters:
+                  environment: 'Testing'
+              - template: packages/mittbob-pwa/templates/create-web-container-and-upload.yml
+                parameters:
+                  environment: 'Testing'
+- stage: Stage
+  condition: and(succeeded('Test'), startsWith(variables['build.sourceBranch'], 'refs/tags/v'))
+  jobs:
+    - deployment: Deploy
+      pool:
+        vmImage: 'ubuntu-latest'
+      environment: 'Staging'
+      strategy:
+        runOnce:
+          deploy:
+            steps:
+              - checkout: self
+              - bash: |
+                  git describe --exact-match $(Build.SourceVersion)
+                displayName: Verify tag
+              - template: packages/mittbob-pwa/templates/terraform-init-plan-apply.yml
+                parameters:
+                  environment: 'Staging'
+              - task: DownloadPipelineArtifact@2
+                displayName: Download the build folder artifact
+                inputs:
+                  artifact: WebAppBuild
+              - template: packages/mittbob-pwa/templates/inject-environment.yml
+                parameters:
+                  environment: 'Staging'
+              - template: packages/mittbob-pwa/templates/create-web-container-and-upload.yml
+                parameters:
+                  environment: 'Staging'
+- stage: Production
+  condition: and(succeeded('Test'), startsWith(variables['build.sourceBranch'], 'refs/tags/v'))
+  jobs:
+    - deployment: Deploy
+      pool:
+        vmImage: 'ubuntu-latest'
+      environment: 'Production'
+      strategy:
+        runOnce:
+          deploy:
+            steps:
+              - checkout: self
+              - bash: |
+                  git describe --exact-match $(Build.SourceVersion)
+                displayName: Verify tag
+              - template: packages/mittbob-pwa/templates/terraform-init-plan-apply.yml
+                parameters:
+                  environment: 'Production'
+              - task: DownloadPipelineArtifact@2
+                displayName: Download the build folder artifact
+                inputs:
+                  artifact: WebAppBuild
+              - template: packages/mittbob-pwa/templates/inject-environment.yml
+                parameters:
+                  environment: 'Production'
+              - template: packages/mittbob-pwa/templates/create-web-container-and-upload.yml
+                parameters:
+                  environment: 'Production'

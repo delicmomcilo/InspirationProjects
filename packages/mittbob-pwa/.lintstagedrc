@@ -1,0 +1,8 @@
+{
+  '**/*.+(js|ts|css|sass|less|graphql|scss|json|vue)': [
+    'eslint --fix',
+    'prettier --write',
+    'yarn test --watchAll=false --findRelatedTests',
+    'git add',
+  ],
+}

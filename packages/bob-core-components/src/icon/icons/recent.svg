@@ -1,0 +1,9 @@
+<svg version="1.1" viewBox="0 0 24 24" class="bob-core-components-icon">
+    <g class="icons/_tint/recent">
+        <rect width="5" height="5" x="3" y="17" rx="2.5" class="primarytint"/>
+        <rect width="17" height="17" x="6" y="2" rx="8.5" class="primarytint"/>
+        <path d="M8.85 11.762c-.2-.2-.2-.5 0-.7.2-.2.5-.2.7 0l2.789 2.738 3.78-4.623c.15-.2.5-.25.7-.05.2.2.25.5.05.7l-4.13 5.023c-.1.1-.2.15-.35.2h-.05c-.15 0-.25-.05-.35-.15L8.85 11.762zm0 0c-.2-.2-.2-.5 0-.7.2-.2.5-.2.7 0l2.789 2.738 3.78-4.623c.15-.2.5-.25.7-.05.2.2.25.5.05.7l-4.13 5.023c-.1.1-.2.15-.35.2h-.05c-.15 0-.25-.05-.35-.15L8.85 11.762z"
+              class="primarytint"/>
+        <path class="secondarytint" d="M12.5 3.65a8.85 8.85 0 1 0 0 17.7 8.85 8.85 0 1 0 0-17.7z"/>
+    </g>
+</svg>

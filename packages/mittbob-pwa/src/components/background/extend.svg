@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="4889px" height="7591px" viewBox="0 0 4889 7591" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 63.1 (92452) - https://sketch.com -->
+    <title>Artboard Copy</title>
+    <desc>Created with Sketch.</desc>
+    <defs>
+        <linearGradient x1="50.0001372%" y1="100.000107%" x2="50.0001372%" y2="0%" id="linearGradient-1-extend">
+            <stop stop-color="#C5E6EF" offset="0%"></stop>
+            <stop stop-color="#F3FAFC" offset="100%"></stop>
+        </linearGradient>
+    </defs>
+    <g id="Artboard-Copy" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <rect x="0" y="0" width="4889" height="7591"></rect>
+        <rect id="background" fill="url(#linearGradient-1-extend)" fill-rule="nonzero" x="0" y="0" width="4889" height="6740"></rect>
+        <g id="Skyline" transform="translate(16.000000, 6250.000000)" fill-rule="nonzero" opacity="0.3">
+            <rect id="buildings" fill="#979FC6" x="2328" y="74" width="54" height="191"></rect>
+            <rect id="buildings" fill="#515EA0" x="2271" y="112" width="96" height="153"></rect>
+            <rect id="buildings" fill="#979FC6" x="2445" y="127" width="46" height="138"></rect>
+            <rect id="buildings" fill="#263688" x="2405" y="140" width="125" height="125"></rect>
+            <rect id="buildings" fill="#515EA0" x="2713" y="140" width="125" height="125"></rect>
+            <rect id="buildings" fill="#263688" x="2025" y="195" width="125" height="70"></rect>
+            <rect id="buildings" fill="#263688" x="2769" y="196" width="125" height="69"></rect>
+            <rect id="buildings" fill="#515EA0" x="2542" y="46" width="64" height="219"></rect>
+            <rect id="buildings" fill="#263688" x="2574" y="0" width="120" height="265"></rect>
+            <rect id="buildings" fill="#515EA0" transform="translate(2216.000000, 165.000000) rotate(-180.000000) translate(-2216.000000, -165.000000) " x="2161" y="65" width="110" height="200"></rect>
+            <rect id="buildings" fill="#979FC6" x="3832" y="73" width="54" height="192"></rect>
+            <rect id="buildings" fill="#515EA0" x="3775" y="112" width="96" height="153"></rect>
+            <rect id="buildings" fill="#979FC6" x="3949" y="127" width="46" height="138"></rect>
+            <rect id="buildings" fill="#263688" x="3909" y="140" width="125" height="125"></rect>
+            <rect id="buildings" fill="#515EA0" x="4217" y="140" width="125" height="125"></rect>
+            <rect id="buildings" fill="#263688" x="3528" y="196" width="125" height="69"></rect>
+            <rect id="buildings" fill="#263688" x="4273" y="196" width="125" height="69"></rect>
+            <rect id="buildings" fill="#515EA0" x="4045" y="46" width="64" height="219"></rect>
+            <rect id="buildings" fill="#263688" x="4078" y="1" width="120" height="264"></rect>
+            <rect id="buildings" fill="#515EA0" transform="translate(3719.500000, 165.500000) rotate(-180.000000) translate(-3719.500000, -165.500000) " x="3665" y="66" width="109" height="199"></rect>
+            <rect id="buildings" fill="#979FC6" x="4306" y="74" width="54" height="191"></rect>
+            <rect id="buildings" fill="#515EA0" x="4249" y="113" width="96" height="152"></rect>
+            <rect id="buildings" fill="#979FC6" x="4423" y="127" width="46" height="138"></rect>
+            <rect id="buildings" fill="#263688" x="4383" y="140" width="125" height="125"></rect>
+            <rect id="buildings" fill="#515EA0" x="4691" y="140" width="125" height="125"></rect>
+            <rect id="buildings" fill="#263688" x="4003" y="196" width="125" height="69"></rect>
+            <rect id="buildings" fill="#515EA0" x="4520" y="46" width="64" height="219"></rect>
+            <rect id="buildings" fill="#263688" x="4552" y="1" width="120" height="264"></rect>
+            <rect id="buildings" fill="#515EA0" transform="translate(4193.500000, 165.500000) rotate(-180.000000) translate(-4193.500000, -165.500000) " x="4139" y="66" width="109" height="199"></rect>
+            <polygon id="mountain" fill="#979FC6" points="0 263.8 1018 263.8 833.615261 169.6 757.299331 175.6 691.749398 157 655.226774 147.5 641.735207 140 581.500134 163.4 567.327175 161.2 557.651406 157.3 524.263186 166.9 517.040428 164 500.141901 164 413.196252 188.5 368.224364 176.9 354.596519 180 312.622758 171.8 297.904685 163.1 280.324766 157.1 201.82838 179.6 49.4690763 209.5"></polygon>
+            <polygon id="mountain" fill="#263688" points="2022 169.1 1956.19651 188.3 1754.30409 149 1650.40385 119.5 1627.17909 127.4 1607.62139 138.8 1552.00421 149.6 1533.8726 145.5 1474.38462 160.7 1359.27945 128.5 1336.86959 128.5 1327.4982 132.3 1283.08594 119.8 1270.45493 124.8 1251.50841 127.7 1171.85156 97 1153.92368 106.8 1105.64062 119.4 1018.85337 143.8 917.805288 135.9 666 263.5 2022 263.5"></polygon>
+            <polygon id="mountain" fill="#515EA0" points="2036 175.9 1838.60094 186.6 1542.19912 135.5 1519.60891 141.8 1451.83826 132.6 1346.61941 158.1 1288.70355 138.7 1271.26815 138.3 1163.77511 83 1106.76893 112.6 1086.75612 110.7 956.976097 159.3 902.547323 143.4 874.347457 141.5 822.344478 115.5 685.741902 180.9 637.226003 196.2 628.584109 199.4 583.403679 187.8 515.481421 195.9 493.042818 189.2 196.641001 235.4 0 264.1 2036 264.1"></polygon>
+        </g>
+        <polygon id="grass" fill="#C9DD94" fill-rule="nonzero" points="0 6514.40104 0 6745 4889 6745 4889 6514"></polygon>
+        <polygon id="grass" fill="#E9EFC6" fill-rule="nonzero" points="0 6744.5 0 7591 4889 7591 4889 6743"></polygon>
+        <rect id="road" fill="#B5B1AE" fill-rule="nonzero" x="0" y="6742.5" width="4889" height="75.4"></rect>
+        <rect id="road" fill="#B5B1AE" fill-rule="nonzero" x="1.2" y="6848.2" width="4889" height="94.6"></rect>
+<!--        <path d="M4716.9,7457.3 C4683.1,7457.3 4651.6,7467.2 4625.2,7484.2 C4587.2,7408.4 4508.8,7356.3 4418.3,7356.3 C4371.6,7356.3 4328.1,7370.2 4291.8,7394 C4245.6,7344.2 4179.6,7313 4106.3,7313 C4013.1,7313 3931.7,7363.4 3887.8,7438.4 C3876.6,7436.4 3865,7435.2 3853.2,7435.2 C3759.9,7435.2 3682.2,7501.8 3664.9,7590 L4882.6,7590 C4865.8,7514.1 4798,7457.3 4716.9,7457.3 Z" id="bush" fill="#C9DD94" fill-rule="nonzero"></path>-->
+<!--        <path d="M2217.5,7483.4 C2190.3,7483.4 2165.1,7491.4 2143.8,7505 C2113.3,7444.1 2050.3,7402.2 1977.5,7402.2 C1940,7402.2 1905,7413.4 1875.8,7432.5 C1838.7,7392.5 1785.7,7367.4 1726.8,7367.4 C1651.9,7367.4 1586.6,7407.9 1551.3,7468.2 C1542.3,7466.6 1533,7465.7 1523.5,7465.7 C1448.6,7465.7 1386.1,7519.2 1372.2,7590.1 L2350.6,7590.1 C2337.1,7529 2282.7,7483.4 2217.5,7483.4 Z" id="bush" fill="#C9DD94" fill-rule="nonzero"></path>-->
+<!--        <path d="M1275,7329.5 C1211.7,7329.5 1152.5,7347.1 1101.9,7377.4 C1032,7222 875.9,7113.7 694.4,7113.7 C531.2,7113.7 388.6,7201.2 310.6,7331.8 C167.3,7347.5 50.8,7452.5 18.2,7590 L248.7,7590 L677.4,7590 L945.3,7590 L1140,7590 L1604.6,7590 C1569.3,7440.7 1435.2,7329.5 1275,7329.5 Z" id="bush" fill="#C9DD94" fill-rule="nonzero"></path>-->
+<!--        <path d="M3354.8,7329.5 C3291.5,7329.5 3232.3,7347.1 3181.7,7377.4 C3111.8,7222 2955.7,7113.7 2774.2,7113.7 C2611,7113.7 2468.4,7201.2 2390.4,7331.8 C2247.1,7347.5 2130.6,7452.5 2098,7590 L2328.5,7590 L2757.2,7590 L3025.1,7590 L3219.7,7590 L3684.3,7590 C3649,7440.7 3514.9,7329.5 3354.8,7329.5 Z" id="bush" fill="#C9DD94" fill-rule="nonzero"></path>-->
+    </g>
+</svg>

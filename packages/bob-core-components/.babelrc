@@ -1,0 +1,34 @@
+{
+  "presets": [
+    [
+      "@babel/preset-env",
+      {
+        "targets": {
+          "browsers": "> 0.5%, ie >= 11"
+        }
+      }
+    ],
+    "@babel/preset-react"
+  ],
+  "plugins": [
+    [
+      "inline-react-svg",
+      {
+        "svgo": {
+          "plugins": [
+            {
+              "removeViewBox": false
+            },
+            {
+              "removeHiddenElems": false
+            }
+          ],
+          "multipass": true
+        }
+      }
+    ]
+  ],
+  "ignore": [
+    "*/**.(ts|tsx)"
+  ]
+}

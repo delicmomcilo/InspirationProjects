@@ -1,0 +1,57 @@
+# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
+
+tfplan
+# dependencies
+node_modules
+node_modules/
+node_modules/
+**/node_modules/*
+**/build/*
+testCoverage
+/frProxy/node_modules
+/node_modules
+/.pnpgit
+.pnp.js
+
+# We do not want to commit our PAT / sercets to the repo.
+.npmrc
+
+# testing
+/coverage
+/testCoverage
+
+# Scripts
+/scripts/ca.crt
+/scripts/key.pem
+/scripts/my_config.cnf
+
+# production
+/build
+
+# misc
+../../../.idea
+.DS_Store
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+
+#  Local .terraform directories
+**/.terraform/*
+
+# .tfstate files
+*.tfstate
+*.tfstate.*
+
+# .tfvars files
+*.tfvars
+
+# Misc
+.idea
+.vscode
+/packages/bob-core-components/node_modules/

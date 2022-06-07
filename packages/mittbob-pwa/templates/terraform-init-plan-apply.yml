@@ -1,0 +1,72 @@
+parameters:
+  environment: 'Development'
+  shortNames:
+    Development: 'd'
+    Testing: 't'
+    Staging: 's'
+    Production: 'p'
+  SPMapping:
+    Development: 'Development'
+    Testing: 'Test'
+    Staging: 'Stage'
+    Production: 'Production'
+
+steps:
+  - task: AzureAppConfiguration@1
+    inputs:
+      azureSubscription: 'DeploymentSP-${{ parameters.SPMapping[parameters.environment] }}-SC'
+      ConfigstoreName: 'bob-${{ parameters.shortNames[parameters.environment]}}-weu-appconfig-acf'
+      KeyFilter: 'Pipeline:*'
+  - task: AzureKeyVault@1
+    inputs:
+      azureSubscription: 'DeploymentSP-${{ parameters.SPMapping[parameters.environment] }}-SC'
+      keyVaultName: 'bob-${{ parameters.shortNames[parameters.environment]}}-weu-keyvault-kv'
+      secretsFilter: 'Pipeline-DeploymentSP-ClientSecret'
+  - task: ms-devlabs.custom-terraform-tasks.custom-terraform-installer-task.TerraformInstaller@0
+    displayName: 'Install Terraform 0.12.20'
+    inputs:
+      terraformVersion: 0.12.20
+  - bash: |
+      make init
+    displayName: 'Terraform default init'
+    workingDirectory: '$(Build.SourcesDirectory)/packages/mittbob-pwa/terraform'
+    env:
+      ARM_CLIENT_ID: $(Pipeline:DeploymentSP:ClientId)
+      ARM_CLIENT_SECRET: $(Pipeline-DeploymentSP-ClientSecret)
+      ARM_TENANT_ID: $(Pipeline:DeploymentSP:TenantId)
+      TF_VAR_arm_client_id: $(Pipeline:DeploymentSP:ClientId)
+      TF_VAR_arm_client_secret: $(Pipeline-DeploymentSP-ClientSecret)
+      TF_VAR_arm_tenant_id: $(Pipeline:DeploymentSP:TenantId)
+  - bash: |
+      make init_${{ parameters.environment }}
+    displayName: 'Terraform init for workspace ${{ parameters.environment }}'
+    workingDirectory: '$(Build.SourcesDirectory)/packages/mittbob-pwa/terraform'
+    env:
+      ARM_CLIENT_ID: $(Pipeline:DeploymentSP:ClientId)
+      ARM_CLIENT_SECRET: $(Pipeline-DeploymentSP-ClientSecret)
+      ARM_TENANT_ID: $(Pipeline:DeploymentSP:TenantId)
+      TF_VAR_arm_client_id: $(Pipeline:DeploymentSP:ClientId)
+      TF_VAR_arm_client_secret: $(Pipeline-DeploymentSP-ClientSecret)
+      TF_VAR_arm_tenant_id: $(Pipeline:DeploymentSP:TenantId)
+  - bash: |
+      make plan_${{ parameters.environment }}
+    displayName: 'Terraform plan for workspace ${{ parameters.environment }}'
+    workingDirectory: '$(Build.SourcesDirectory)/packages/mittbob-pwa/terraform'
+    env:
+      ARM_CLIENT_ID: $(Pipeline:DeploymentSP:ClientId)
+      ARM_CLIENT_SECRET: $(Pipeline-DeploymentSP-ClientSecret)
+      ARM_TENANT_ID: $(Pipeline:DeploymentSP:TenantId)
+      TF_VAR_arm_client_id: $(Pipeline:DeploymentSP:ClientId)
+      TF_VAR_arm_client_secret: $(Pipeline-DeploymentSP-ClientSecret)
+      TF_VAR_arm_tenant_id: $(Pipeline:DeploymentSP:TenantId)
+  - bash: |
+      make apply_${{ parameters.environment }}
+    displayName: 'Terraform apply for workspace ${{ parameters.environment }}'
+    workingDirectory: '$(Build.SourcesDirectory)/packages/mittbob-pwa/terraform'
+    env:
+      ARM_CLIENT_ID: $(Pipeline:DeploymentSP:ClientId)
+      ARM_CLIENT_SECRET: $(Pipeline-DeploymentSP-ClientSecret)
+      ARM_TENANT_ID: $(Pipeline:DeploymentSP:TenantId)
+      TF_VAR_arm_client_id: $(Pipeline:DeploymentSP:ClientId)
+      TF_VAR_arm_client_secret: $(Pipeline-DeploymentSP-ClientSecret)
+      TF_VAR_arm_tenant_id: $(Pipeline:DeploymentSP:TenantId)

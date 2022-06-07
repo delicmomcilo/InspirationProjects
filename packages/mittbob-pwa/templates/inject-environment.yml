@@ -1,0 +1,76 @@
+parameters:
+  accountName: ''
+  # Environment should equal a Subscription
+  environment: ''
+  shortNames:
+    Development: 'd'
+    Testing: 't'
+    Staging: 's'
+    Production: 'p'
+  SPMapping:
+    Development: 'Development'
+    Testing: 'Test'
+    Staging: 'Stage'
+    Production: 'Production'
+
+steps:
+  - task: AzureAppConfiguration@1
+    inputs:
+      azureSubscription: 'DeploymentSP-${{ parameters.SPMapping[parameters.environment] }}-SC'
+      ConfigstoreName: 'bob-${{ parameters.shortNames[parameters.environment]}}-weu-appconfig-acf'
+      KeyFilter: '*'
+  - bash: |
+      cd $(Pipeline.Workspace)/WebAppBuild;
+      REPLACE_TEXT="const INJECT_ENV=\"HERE\"";
+      if grep -r "$REPLACE_TEXT" index.html; then
+          echo "Found text to replace. Proceeding...";
+      else
+          echo "ERROR: Did not find text to replace. Exiting..."
+          exit 1
+      fi
+      for var in "${!REACT_APP_@}"; do
+        printf '%s=%s\n' "$var" "${!var}"
+        if [[ "${!var}" =~ ^\$\(.*$ ]]
+        then
+                echo "${var} is starting with \$( which indicates that it is not set properly by pipeline. Read about macro variables in AZ docs."
+        else
+                ENVS+="window.__UNSECURE_ENV__.${var}='${!var}';"
+        fi
+      done
+      echo "ENVS to inject.";
+      echo $ENVS;
+      echo "Replacing text with ENV using sed command.";
+      sed -i "s|const INJECT_ENV=\"HERE\"|${ENVS}|g" index.html
+    displayName: Inject environment variables
+    env:
+      REACT_APP_AUTH0_AUDIENCE: $(MittBob:WebApp:Auth0Audience)
+      REACT_APP_AUTH0_CLIENT_ID: $(MittBob:WebApp:Auth0ClientId)
+      REACT_APP_AUTH0_DOMAIN: $(MittBob:WebApp:Auth0Domain)
+      REACT_APP_API_BASE_URL: $(MittBob:WebApp:ApiBaseUrl)
+      REACT_APP_BANK_ID_CLIENT_ID: $(BankID:Oidc:ClientId)
+      REACT_APP_BANK_ID_REDIRECT_URI: $(BankID:Oidc:RedirectUri)
+      REACT_APP_BANK_ID_WELL_KNOWN_ENDPOINT: $(BankID:Oidc:WellKnownUri)
+      REACT_APP_BOARD_PORTAL_URL: $(MittBob:WebApp:BoardPortalUrl)
+      REACT_APP_CONTACT_INFO_OUTDATED_DAYS: $(MittBob:WebApp:ContactInfoOutdatedDays)
+      REACT_APP_FF_RESET_USER_PW_PIN: $(.appconfig.featureflag/MittBobWebAppFFResetUserPw)
+      REACT_APP_FF_FIND_HOME: $(.appconfig.featureflag/MittBobWebAppFFFindHome)
+      REACT_APP_FF_SERVICE_WORKER: $(.appconfig.featureflag/MittBobWebAppFFServiceWorker)
+      REACT_APP_FF_ONBOARDING_DIALOG: $(.appconfig.featureflag/MittBobWebAppFFOnboardingDialog)
+      REACT_APP_FF_VIPPS_CHECKOUT: $(.appconfig.featureflag/MittBobWebAppFFVipps)
+      REACT_APP_FF_THIRD_PARTY_INFORMATION: $(.appconfig.featureflag/MittBobWebAppFFThirdPartyInformation)
+      REACT_APP_FF_CONFIRM_CONTACT_INFO_DIALOG: $(.appconfig.featureflag/MittBobWebAppFFConfirmContactInfoDialog)
+      REACT_APP_GOOGLE_MAPS_API_KEY: $(Google:Maps:ApiKey)
+      REACT_APP_MIN_SIDE_URL: $(MittBob:WebApp:MinSideUrl)
+      REACT_APP_NF1_BASE_URL: $(Funcapp:Nodefunctions1:BaseUrl)
+      REACT_APP_SERVICE_WORKER_LOOK_FOR_UPDATES_INTERVAL: $(MittBob:WebApp:ServiceWorkerLookForUpdatesInterval)
+      REACT_APP_UMBRACO_BASE_URL: $(Umbraco:Public:BaseUrl)
+      REACT_APP_UMBRACO_COMING_SOON_ID: $(Umbraco:Public:ComingSoonId)
+      REACT_APP_UMBRACO_CONTACT_INFO_ID: $(Umbraco:Public:ContactInfoId)
+      REACT_APP_UMBRACO_FAQ_ID: $(Umbraco:Public:FaqId)
+      REACT_APP_UMBRACO_MEMBER_BENEFITS_ID: $(Umbraco:Public:MemberBenefitsId)
+      REACT_APP_UMBRACO_MEMBER_CONDITIONS_ID: $(Umbraco:Public:MemberConditionsId)
+      REACT_APP_UMBRACO_PRE_EMPTION_INFO_ID: $(Umbraco:Public:PreEmptionInfoId)
+      REACT_APP_UMBRACO_PREEMPTION_TERMS_ID: $(Umbraco:Public:PreemptionTermsId)
+      REACT_APP_UMBRACO_PRIVACY_DECLARATION_ID: $(Umbraco:Public:PrivacyDeclarationId)
+      REACT_APP_UMBRACO_TERMS_AND_CONCEPTS_ID: $(Umbraco:Public:TermsAndConceptsId)
+      REACT_APP_UMBRACO_WELCOME_TEXT_ID: $(Umbraco:Public:WelcomeTextId)
